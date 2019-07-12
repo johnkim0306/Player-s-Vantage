@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Player's Advantage</title>
+	<link href="/style.css" rel="stylesheet" type="text/css" />
+	<link rel="icon"  type="image/png"  href="/images/fav.png">
+	<script src="https://zacharymetz.github.io/webAnalytics/analytics.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+	<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+	<script src="/scripts/nunjucks.js"></script>
+	<script src="/scripts/weapons.js"></script>
+	<script src="/scripts/main.js"></script>
+</head>
+
+<body>
+	<div class="main-jumbotron">
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+					<a class="navbar-brand" href="/">
+							<div class="main-nav-brand-image"></div>
+							Player's Vantage
+						  </a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					  <span class="navbar-toggler-icon"></span>
+					</button>
+				  
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					  <ul class="navbar-nav mr-auto">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Stats
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="/Stats/Player.html">My Stats</a>
+								<a class="dropdown-item" href="/Stats/matches.html">Past Matches</a>
+								
+							</div>
+						</li>
+						<li class="nav-item">
+								<a class="nav-link" href="/News/">News </a>
+							</li>
+						<li class="nav-item">
+								<a class="nav-link" href="/Items/">Items </a>
+							</li>
+						<li class="nav-item">
+						  <a class="nav-link" href="/Skins/">Skins </a>
+						</li>
+						<li class="nav-item">
+						  <a class="nav-link" href="/Weapons/">Weapons</a>
+						</li>
+					  </ul>
+					  <div class="form-inline my-2 my-lg-0">
+								<input class="form-control mr-sm-2" id="epicName" type="search" placeholder="Your EpicName" aria-label="Search">
+								<button class="btn btn-outline-success my-2 my-sm-0" onclick="enterEpicID($('#epicName').val())">Check</button>
+								</div>
+					</div>
+				  </nav>
+
+					<h2 style="color:white;margin:2rem 0; width:100%;text-align: center">Player Statistics</h2>
+
+					<div class="container">
+						<div class="row">
+							<div class="col">
+
+								 <div class="card">
+									 <div class="card-body">
+										 <h2><span id="username">Username</span></h2>
+										 <div class="row">
+
+											 <div class="col">
+												 <p>Overall Kills : <span id="o-kill"></span></p>
+
+												 <div class="progress">
+													<div class="progress-bar bg-success" role="progressbar" style="width: 95%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+											 </div>
+
+											 <div class="col-md">
+												 <p>Overall K/D : <span id="o-kd"></span></p>
+
+												 <div class="progress">
+													<div class="progress-bar bg-success" role="progressbar" style="width: 94%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Top 6%</div>
+												  </div>
+											 </div>
+
+											 <div class="col-md">
+												 <p>Overall Wins : <span id="o-win"></span></p>
+
+												 <div class="progress">
+													<div class="progress-bar bg-success" role="progressbar" style="width: 93%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Top 7%</div>
+												  </div>
+											 </div>
+
+											 <div class="col-md-3">
+												 <p>Overall Win Percent : <span id="o-win-percent"></span></p>
+
+												 <div class="progress">
+													<div class="progress-bar bg-success" role="progressbar" style="width: 92%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Top 8%</div>
+												  </div>
+											 </div>
+
+											 <div class="col-md">
+												 <p>total Matches : <span id="o-match"></span></p>
+
+												 <div class="progress">
+													<div class="progress-bar bg-success" role="progressbar" style="width: 91%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Top 9%</div>
+												  </div>
+											 </div>
+										 </div>
+										 
+									 </div>
+								 </div>
+
+								 <div class="card">
+									 <div class="card-body">
+										 <h2>Solos</h2>
+										 <div class="row">
+											 <div class="col-md">
+												 <p>Kills : <span id="so-kill"></span></p>
+
+												 <div class="progress">
+													<div class="progress-bar bg-info" role="progressbar" style="width: 95%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+
+												 <p>K/D : <span id="so-kd"></span></p>
+
+												 <div class="progress">
+													<div class="progress-bar bg-info" role="progressbar" style="width: 95%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+
+												 
+
+											 </div>
+
+											 <div class="col-md">
+
+												 <p>Player Outlived : <span id="so-outlive"></span></p>
+
+												 <div class="progress">
+													<div class="progress-bar bg-info" role="progressbar" style="width: 94%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">Top 6%</div>
+												  </div>
+
+												 <p>Wins : <span id="so-win"></span></p>
+
+												 <div class="progress">
+													<div class="progress-bar bg-info" role="progressbar" style="width: 94%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">Top 6%</div>
+												  </div>
+
+											 </div>
+
+											 <div class="col-md">
+
+												 <p>Win Percentage : <span id="so-win-percent"></span></p>
+
+												 <div class="progress">
+													<div class="progress-bar bg-info" role="progressbar" style="width: 93%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">Top 7%</div>
+												  </div>
+
+												 <p>Matches : <span id="so-match"></span></p>
+
+												 <div class="progress">
+													<div class="progress-bar bg-info" role="progressbar" style="width: 93%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">Top 7%</div>
+												  </div>
+
+
+											 </div>
+
+											 <div class="col-md">
+												 <p>Score : <span id="so-score"></span></p>
+
+												 <div class="progress">
+													<div class="progress-bar bg-info" role="progressbar" style="width: 92%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">Top 8%</div>
+												  </div>
+
+												 <p>Score per match : <span id="so-score-per-match"></span></p>
+
+												 <div class="progress">
+													<div class="progress-bar bg-info" role="progressbar" style="width: 92%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">Top 8%</div>
+												  </div>
+											 </div>
+										 </div>
+									 </div>
+								 </div>
+
+								 <div class="card">
+									<div class="card-body">
+										<h2>Duos</h2>
+										<div class="row">
+											<div class="col-md">
+												<p>Kills : <span id="d-kill"></span></p>
+
+												<div class="progress">
+													<div class="progress-bar bg-warning" role="progressbar" style="width: 95%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+
+												<p>K/D : <span id="d-kd"></span></p>
+
+												<div class="progress">
+													<div class="progress-bar bg-warning" role="progressbar" style="width: 95%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+											</div>
+
+											<div class="col-md">
+												<p>Player Outlived : <span id="d-outlive"></span></p>
+
+												<div class="progress">
+													<div class="progress-bar bg-warning" role="progressbar" style="width: 95%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+
+												<p>Wins : <span id="d-win"></span></p>
+
+												<div class="progress">
+													<div class="progress-bar bg-warning" role="progressbar" style="width: 95%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+											</div>
+
+											<div class="col-md">
+												<p>Win Percentage : <span id="d-win-percent"></span></p>
+
+												<div class="progress">
+													<div class="progress-bar bg-warning" role="progressbar" style="width: 95%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+
+												<p>Matches : <span id="d-match"></span></p>
+
+												<div class="progress">
+													<div class="progress-bar bg-warning" role="progressbar" style="width: 95%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+											</div>
+
+											<div class="col-md">
+												<p>Score : <span id="d-score"></span></p>
+
+												<div class="progress">
+													<div class="progress-bar bg-warning" role="progressbar" style="width: 95%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+
+												<p>Score per match : <span id="d-score-per-match"></span></p>
+
+												<div class="progress">
+													<div class="progress-bar bg-warning" role="progressbar" style="width: 95%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="card">
+									<div class="card-body">
+										<h2>Squads</h2>
+										<div class="row">
+											<div class="col-md">
+												<p>Kills : <span id="sq-kill"></span></p>
+
+												<div class="progress">
+													<div class="progress-bar bg-danger" role="progressbar" style="width: 95%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+
+												<p>K/D : <span id="sq-kd"></span></p>
+
+												<div class="progress">
+													<div class="progress-bar bg-danger" role="progressbar" style="width: 95%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+
+											</div>
+
+											<div class="col-md">
+
+												<p>Player Outlived : <span id="sq-outlive"></span></p>
+
+												<div class="progress">
+													<div class="progress-bar bg-danger" role="progressbar" style="width: 95%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+
+												<p>Wins : <span id="sq-win"></span></p>
+
+												<div class="progress">
+													<div class="progress-bar bg-danger" role="progressbar" style="width: 95%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+
+											</div>
+
+											<div class="col-md">
+
+												<p>Win Percentage : <span id="sq-win-percent"></span></p>
+
+												<div class="progress">
+													<div class="progress-bar bg-danger" role="progressbar" style="width: 95%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+
+												<p>Matches : <span id="sq-match"></span></p>
+
+												<div class="progress">
+													<div class="progress-bar bg-danger" role="progressbar" style="width: 95%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+
+
+											</div>
+
+											<div class="col-md">
+												<p>Score : <span id="sq-score"></span></p>
+
+												<div class="progress">
+													<div class="progress-bar bg-danger" role="progressbar" style="width: 95%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+
+												<p>Score per match : <span id="sq-score-per-match"></span></p>
+
+												<div class="progress">
+													<div class="progress-bar bg-danger" role="progressbar" style="width: 95%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Top 5%</div>
+												  </div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+								<div class="card">
+									<div class="card-body">
+
+										<button type="button" style="float: right;" class="btn btn-primary">Filter Date Range</button>
+
+										<canvas id="myChart" width="400" height="100"></canvas>
+										<script>
+										var ctx = document.getElementById('myChart').getContext('2d');
+										var myChart = new Chart(ctx, {
+											type: 'line',
+											data: {
+												labels: ['4/01', '4/02', '4/03', '4/04', '4/05', '4/06'],
+												datasets: [{
+													label: 'Kills',
+													data: [12, 19, 3, 5, 2, 3],
+													fill:false,
+													borderColor: [
+														'rgba(255, 99, 132, 1)',
+														'rgba(54, 162, 235, 1)',
+														'rgba(255, 206, 86, 1)',
+														'rgba(75, 192, 192, 1)',
+														'rgba(153, 102, 255, 1)',
+														'rgba(255, 159, 64, 1)'
+													],
+													borderWidth: 1
+												}]
+											},
+											options: {
+												scales: {
+													yAxes: [{
+														ticks: {
+															beginAtZero: true
+														}
+													}]
+												}
+											}
+										});
+
+										
+										</script>
+
+									</div>
+								</div>
+
+								<div class="card">
+										<div class="card-body">
+	
+											<button type="button" style="float: right;" class="btn btn-primary">Filter Date Range</button>
+	
+											<canvas id="myChart2" width="400" height="100"></canvas>
+											<script>
+											var ctx = document.getElementById('myChart2').getContext('2d');
+											var myChart = new Chart(ctx, {
+												type: 'line',
+												data: {
+													labels: ['4/01', '4/02', '4/03', '4/04', '4/05', '4/06'],
+													datasets: [{
+														label: 'Kill/Death',
+														data: [1.25, 1.3, 1.4, 1.7, 2.0, 3],
+														fill:false,
+														borderColor: "blue",
+														borderWidth: 1
+													}]
+												},
+												options: {
+													scales: {
+														yAxes: [{
+															ticks: {
+																beginAtZero: true
+															}
+														}]
+													}
+												}
+											});
+	
+											
+											</script>
+	
+										</div>
+									</div>
+
+							</div>
+						</div>
+					</div>
+
+					<script>
+						$(document).ready(()=>{
+							//  
+							console.log(localStorage.getItem("epicID"));
+							$.post("https://fortnite-public-api.theapinetwork.com/prod09/users/public/br_stats_v2?user_id=4735ce9132924caf8a5b17789b40f79c").done((data)=>{
+								console.log(data);
+							
+							$("#username").html(data.epicName);
+							//username
+
+							let soKill = data.data.keyboardmouse.defaultsolo.default.kills;
+							let soMatch = data.data.keyboardmouse.defaultsolo.default.matchesplayed;
+							let soKD = (soKill/soMatch).toFixed(2);
+							let soOutlive = data.data.keyboardmouse.defaultsolo.default.playersoutlived;
+							let soWin = data.data.keyboardmouse.defaultsolo.default.placetop1;
+							let soWinPercent = (soWin/soMatch*100).toFixed(2);
+							let soScore = data.data.keyboardmouse.defaultsolo.default.score;
+							let soScorePerMatch = (soScore/soMatch).toFixed(2);
+
+							$("#so-kill").html(soKill);
+							//Solo Kills
+
+							$("#so-kd").html(soKD);
+							//Solo K/D
+
+							$("#so-outlive").html(soOutlive);
+							//Solo Player Outlived
+
+							$("#so-win").html(soWin);
+							//Solo Wins
+
+							$("#so-win-percent").html(soWinPercent+"%");
+							//Solo Win percent
+
+							$("#so-match").html(soMatch);
+							//Solo Matches
+
+							$("#so-score").html(soScore);
+							//Solo Score
+
+							$("#so-score-per-match").html(soScorePerMatch);
+							//Solo Score per match
+
+							let dKill = data.data.keyboardmouse.defaultduo.default.kills;
+							let dMatch = data.data.keyboardmouse.defaultduo.default.matchesplayed;
+							let dKD = (dKill/dMatch).toFixed(2);
+							let dOutlive = data.data.keyboardmouse.defaultduo.default.playersoutlived;
+							let dWin = data.data.keyboardmouse.defaultduo.default.placetop1;
+							let dWinPercent = (dWin/dMatch*100).toFixed(2);
+							let dScore = data.data.keyboardmouse.defaultduo.default.score;
+							let dScorePerMatch = (dScore/dMatch).toFixed(2);
+
+							$("#d-kill").html(dKill);
+							//Duo Kills
+
+							$("#d-kd").html(dKD);
+							//Duo K/D
+
+							$("#d-outlive").html(dOutlive);
+							//Duo Player Outlived
+
+							$("#d-win").html(dWin);
+							//Duo Wins
+
+							$("#d-win-percent").html(dWinPercent+"%");
+							//Duo Win percent
+
+							$("#d-match").html(dMatch);
+							//Duo Matches
+
+							$("#d-score").html(dScore);
+							//Duo Score
+
+							$("#d-score-per-match").html(dScorePerMatch);
+							//Duo Score per match
+
+							let sqKill = data.data.keyboardmouse.defaultsquad.default.kills;
+							let sqMatch = data.data.keyboardmouse.defaultsquad.default.matchesplayed;
+							let sqKD = (sqKill/sqMatch).toFixed(2);
+							let sqOutlive = data.data.keyboardmouse.defaultsquad.default.playersoutlived;
+							let sqWin = data.data.keyboardmouse.defaultsquad.default.placetop1;
+							let sqWinPercent = (sqWin/sqMatch*100).toFixed(2);
+							let sqScore = data.data.keyboardmouse.defaultsquad.default.score;
+							let sqScorePerMatch = (sqScore/sqMatch).toFixed(2);
+
+							$("#sq-kill").html(sqKill);
+							//Squad Kills
+
+							$("#sq-kd").html(sqKD);
+							//Squad K/D
+
+							$("#sq-outlive").html(sqOutlive);
+							//Squad Player Outlived
+
+							$("#sq-win").html(sqWin);
+							//Squad Wins
+
+							$("#sq-win-percent").html(sqWinPercent+"%");
+							//Squad Win percent
+
+							$("#sq-match").html(sqMatch);
+							//Squad Matches
+
+							$("#sq-score").html(sqScore);
+							//Squad Score
+
+							$("#sq-score-per-match").html(sqScorePerMatch);
+							//Squad Score per match
+
+							let oKill = soKill + dKill + sqKill;
+							let oMatch = soMatch + dMatch + sqMatch;
+							let oKD = (oKill/oMatch).toFixed(2);
+							let oWin = soWin + dWin + sqWin;
+							let oWinPercent = (oWin/oMatch*100).toFixed(2);
+
+							$("#o-kill").html(oKill);
+							//Overall Kills
+
+							$("#o-kd").html(oKD);
+							//Overall K/D
+
+							$("#o-win").html(oWin);
+							//Overall Wins
+
+							$("#o-win-percent").html(oWinPercent+"%");
+							//Overall Win percent
+
+							$("#o-match").html(oMatch);
+							//Overall Matches
+
+						
+							});
+						});
+					</script>
+
+					<style>
+						.weapon-filters{
+							display:flex;
+							margin:0 auto;
+							max-width:1585px;
+							padding:0.5rem 2rem;
+						}
+						.weapon-filters .dropdown{
+							margin-right:1rem;
+						}
+						.Skin-grid-holder{
+
+							color:white;
+							text-align:center;
+
+						}
+						.skin-grid{
+							display:flex;
+							justify-content: center;
+							flex-wrap: wrap;
+							margin:0 auto;
+							max-width:1585px;
+							width:100%;
+						}
+						.block-loader{
+							background-size: cover;
+			background-position: top center;
+			background-repeat: no-repeat;
+			width:10rem;
+			height:10rem;
+			margin:0 auto;
+			background-image:  url('/images/loader.svg')
+						}
+						.weapon-card{
+							height: 12rem;
+							flex:1;
+							min-width: 12rem;
+							max-width: 12rem;
+							margin: 1rem 1rem;
+
+							position:relative;
+
+								background-size: cover;
+								background-position: top center;
+								background-repeat: no-repeat;
+						}
+						.weapon-card-title{
+							opacity: 0.9;
+							margin: 0rem;
+							width: 12rem;
+							position: absolute;
+							bottom: 0;
+							color: #4ae3ff;
+							font-weight: 20;
+							background-color: #555;
+						}
+						.weapon-card-name{
+							text-align:center;
+							font-weight: 600;
+							font-size:1rem;
+						}
+						.weapon-card-rarity{
+							text-align:center;
+							color: white;
+							font-weight: 600;
+							font-size:1rem;
+						}
+						.common{
+							background: #cacaca;
+						}
+						.uncommon{
+							background: #80cf3f;
+						}
+						.rare{
+							background:#2fd5e8;
+						}
+						.epic{
+							background: #bd3ffa;
+						}
+						.legendary{
+							background:#fdae53;
+						}
+						.mythic{
+							background:#fcdd79;
+						}
+
+					</style>
+
+		</div>
+	</div>
+
+
+	<script type="nunjucks/tmpl" id="weaponTmpl">
+		<div class="weapon-card" style="background-image:  url('{{ image }}');">
+				<div class="weapon-card-title">
+						<div class="weapon-card-name">
+								{{ name }}
+								</div>
+						<div class=" {{ rarity }}  weapon-card-rarity ">
+								{{ rarity }}
+								</div>
+				</div>
+			</div>
+	</script>
+
+
+</body>
+</html>
